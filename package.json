@@ -1,6 +1,6 @@
 {
     "name": "@ca-plant-list/tools",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Tools to manage data for a list of plants in an area of California.",
     "license": "MIT",
     "type": "module",
