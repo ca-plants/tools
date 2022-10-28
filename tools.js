@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-console.log( "running" )
-
 import { RPI } from "./lib/rpi.js";
 import commandLineArgs from "command-line-args";
 import { DataLoader } from "@ca-plant-list/ca-plant-list/DataLoader";
