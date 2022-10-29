@@ -21,7 +21,7 @@ switch ( options.tool ) {
         await INat.analyze( options[ "data-inat-taxa" ] );
         break;
     case "rpi":
-        RPI.analyze();
+        RarePlants.analyze();
         break;
 }
 
