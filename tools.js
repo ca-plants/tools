@@ -21,8 +21,10 @@ switch ( options.tool ) {
         await INat.analyze( options[ "data-inat-taxa" ] );
         break;
     case "rpi":
-        RarePlants.analyze();
+        RPI.analyze();
         break;
+    default:
+        throw new Error( "unrecognized tool: " + options.data );
 }
 
 LogMessage.write( "./external_data/log.tsv" );
