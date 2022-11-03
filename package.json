@@ -8,7 +8,8 @@
         "tools": "tools.js"
     },
     "dependencies": {
-        "command-line-args": "^5.2.1"
+        "command-line-args": "^5.2.1",
+        "node-fetch": "^3.2.10"
     },
     "devDependencies": {
         "eslint": "^8.26.0"
