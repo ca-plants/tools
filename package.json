@@ -10,8 +10,7 @@
         }
     },
     "dependencies": {
-        "command-line-args": "^5.2.1",
-        "node-fetch": "^3.2.10"
+        "command-line-args": "^5.2.1"
     },
     "devDependencies": {
         "eslint": "^8.26.0"
