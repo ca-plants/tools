@@ -9,7 +9,11 @@
             "import": "./lib/tools.js"
         }
     },
+    "bin": {
+        "ca-plant-tools": "scripts/ca-plant-tools.js"
+    },
     "dependencies": {
+        "@ca-plant-list/ca-plant-list": "file:../ca-plant-list",
         "command-line-args": "^5.2.1",
         "command-line-usage": "^6.1.3",
         "d3-dsv": "^3.0.1",
