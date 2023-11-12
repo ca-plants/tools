@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { CommandAndTaxaProcessor, Config, ErrorLog, Exceptions } from "@ca-plant-list/ca-plant-list";
+import * as path from "node:path";
+import { CommandProcessor, Config, ErrorLog, Exceptions, TaxaLoader, TaxaProcessor } from "@ca-plant-list/ca-plant-list";
 import { Calflora } from "../lib/calflora.js";
 import { INat } from "../lib/inat.js";
 import { JepsonEFlora } from "../lib/jepsoneflora.js";
@@ -19,15 +20,24 @@ const TOOLS = {
 
 const ALL_TOOLS = [ TOOLS.CALFLORA, TOOLS.INAT, TOOLS.JEPSON_EFLORA, TOOLS.RPI, TOOLS.TEXT ];
 
+const OPT_LOADER = "loader";
 const OPT_TOOL = "tool";
 
 const OPTION_DEFS = [
     { name: "in-taxafile", type: String, defaultValue: "inat_taxa.csv" },
     { name: "ef-lognotes", type: Boolean },
+    { name: OPT_LOADER, type: String },
     { name: OPT_TOOL, type: String, multiple: true },
 ];
 
 const OPTION_HELP = [
+    {
+        name: OPT_LOADER,
+        type: String,
+        typeLabel: "{underline path}",
+        description: "The path (relative to the current directory) of the JavaScript file containing the TaxaLoader class."
+            + " If not provided, the default TaxaLoader will be used."
+    },
     {
         name: "tool",
         type: String,
@@ -69,6 +79,16 @@ const ADDITIONAL_HELP = [
 ];
 
 const TOOLS_DATA_DIR = "./external_data";
+
+async function getLoader( options ) {
+    const loader = options[ OPT_LOADER ];
+    if ( !loader ) {
+        return TaxaLoader;
+    }
+    const taxaLoaderClass = await import( "file:" + path.resolve( loader ) );
+    return taxaLoaderClass.TaxaLoader;
+}
+
 
 async function runTools( taxaProcessor ) {
 
@@ -114,18 +134,21 @@ async function runTools( taxaProcessor ) {
     errorLog.write();
 }
 
-const t = new CommandAndTaxaProcessor(
+const c = new CommandProcessor(
     "ca-plant-tools",
     "Tools to compare plant lists with online plant data.",
-    runTools,
     OPTION_DEFS,
     OPTION_HELP,
     ADDITIONAL_HELP
 );
+const options = c.getOptions();
 
 // If no tools were selected, show help.
-if ( !t.getOptions()[ OPT_TOOL ] ) {
-    t.showHelp();
+if ( !options[ OPT_TOOL ] ) {
+    c.showHelp();
 }
 
-await t.process();
+if ( !c.helpShown() ) {
+    const t = new TaxaProcessor( options, await getLoader( options ) );
+    await t.process( runTools );
+}
