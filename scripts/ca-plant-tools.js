@@ -96,7 +96,7 @@ async function runTools( taxaProcessor ) {
     const taxa = taxaProcessor.getTaxa();
     const exceptions = new Exceptions( options.datadir );
     const config = new Config( options.datadir );
-    const errorLog = new ErrorLog( "./external_data/log.tsv", true );
+    const errorLog = new ErrorLog( options.outputdir + "/log.tsv", true );
 
     let tools = options[ OPT_TOOL ];
     if ( tools[ 0 ] === "all" ) {
