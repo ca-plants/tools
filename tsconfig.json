@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "declaration": true,
+        "declarationMap": true,
+        "module": "nodenext",
+        "newLine": "lf",
+        "outDir": "output",
+        "rootDir": ".",
+        "skipLibCheck": true,
+        "strict": true
+    },
+    "include": ["lib"]
+}
